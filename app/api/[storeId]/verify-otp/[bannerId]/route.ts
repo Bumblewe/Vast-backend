@@ -1,33 +1,33 @@
 import { NextResponse } from "next/server";
+import { auth } from "@clerk/nextjs";
 
 import prismadb from "@/lib/prismadb";
-import { auth } from "@clerk/nextjs";
 
 export async function GET(
   req: Request,
-  { params }: { params: { sizeId: string } }
+  { params }: { params: { bannerId: string } }
 ) {
   try {
-    if (!params.sizeId) {
-      return new NextResponse("Size id is required", { status: 400 });
+    if (!params.bannerId) {
+      return new NextResponse("Banner id is required", { status: 400 });
     }
 
-    const size = await prismadb.size.findUnique({
+    const banner = await prismadb.banner.findUnique({
       where: {
-        id: params.sizeId
+        id: params.bannerId
       }
     });
   
-    return NextResponse.json(size);
+    return NextResponse.json(banner);
   } catch (error) {
-    console.log('[SIZE_GET]', error);
+    console.log('[BANNER_GET]', error);
     return new NextResponse("Internal error", { status: 500 });
   }
 };
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { sizeId: string, storeId: string } }
+  { params }: { params: { bannerId: string, storeId: string } }
 ) {
   try {
     const { userId } = auth();
@@ -36,14 +36,14 @@ export async function DELETE(
       return new NextResponse("Unauthenticated", { status: 403 });
     }
 
-    if (!params.sizeId) {
-      return new NextResponse("Size id is required", { status: 400 });
+    if (!params.bannerId) {
+      return new NextResponse("Banner id is required", { status: 400 });
     }
 
     const storeByUserId = await prismadb.store.findFirst({
       where: {
         id: params.storeId,
-        userId
+        userId,
       }
     });
 
@@ -51,15 +51,15 @@ export async function DELETE(
       return new NextResponse("Unauthorized", { status: 405 });
     }
 
-    const size = await prismadb.size.delete({
+    const banner = await prismadb.banner.delete({
       where: {
-        id: params.sizeId
+        id: params.bannerId,
       }
     });
   
-    return NextResponse.json(size);
+    return NextResponse.json(banner);
   } catch (error) {
-    console.log('[SIZE_DELETE]', error);
+    console.log('[BANNER_DELETE]', error);
     return new NextResponse("Internal error", { status: 500 });
   }
 };
@@ -67,38 +67,35 @@ export async function DELETE(
 
 export async function PATCH(
   req: Request,
-  { params }: { params: { sizeId: string, storeId: string } }
+  { params }: { params: { bannerId: string, storeId: string } }
 ) {
-  try {
+  try {   
     const { userId } = auth();
 
     const body = await req.json();
-
-    const { name, value } = body;
-    console.log(body);
     
-
+    const { label, imageUrl } = body;
+    
     if (!userId) {
       return new NextResponse("Unauthenticated", { status: 403 });
     }
 
-    if (!name) {
-      return new NextResponse("Name is required", { status: 400 });
+    if (!label) {
+      return new NextResponse("Label is required", { status: 400 });
     }
 
-    if (!value) {
-      return new NextResponse("Value is required", { status: 400 });
+    if (!imageUrl) {
+      return new NextResponse("Image URL is required", { status: 400 });
     }
 
-
-    if (!params.sizeId) {
-      return new NextResponse("Size id is required", { status: 400 });
+    if (!params.bannerId) {
+      return new NextResponse("Banner id is required", { status: 400 });
     }
 
     const storeByUserId = await prismadb.store.findFirst({
       where: {
         id: params.storeId,
-        userId
+        userId,
       }
     });
 
@@ -106,19 +103,19 @@ export async function PATCH(
       return new NextResponse("Unauthorized", { status: 405 });
     }
 
-    const size = await prismadb.size.update({
+    const banner = await prismadb.banner.update({
       where: {
-        id: params.sizeId
+        id: params.bannerId,
       },
       data: {
-        name,
-        value
+        label,
+        imageUrl
       }
     });
   
-    return NextResponse.json(size);
+    return NextResponse.json(banner);
   } catch (error) {
-    console.log('[SIZE_PATCH]', error);
+    console.log('[BANNER_PATCH]', error);
     return new NextResponse("Internal error", { status: 500 });
   }
 };

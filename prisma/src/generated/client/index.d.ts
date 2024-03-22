@@ -277,6 +277,23 @@ export type SizePayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultAr
  * 
  */
 export type Size = runtime.Types.DefaultSelection<SizePayload>
+export type OtpPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+  objects: {}
+  scalars: $Extensions.GetResult<{
+    id: string
+    mobile: string
+    otp: string
+    createdAt: Date
+    updatedAt: Date
+  }, ExtArgs["result"]["otp"]>
+  composites: {}
+}
+
+/**
+ * Model Otp
+ * 
+ */
+export type Otp = runtime.Types.DefaultSelection<OtpPayload>
 export type ColorPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
   objects: {
     store: StorePayload<ExtArgs>
@@ -542,6 +559,16 @@ export class PrismaClient<
     * ```
     */
   get size(): Prisma.SizeDelegate<GlobalReject, ExtArgs>;
+
+  /**
+   * `prisma.otp`: Exposes CRUD operations for the **Otp** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Otps
+    * const otps = await prisma.otp.findMany()
+    * ```
+    */
+  get otp(): Prisma.OtpDelegate<GlobalReject, ExtArgs>;
 
   /**
    * `prisma.color`: Exposes CRUD operations for the **Color** model.
@@ -1057,6 +1084,7 @@ export namespace Prisma {
     Order: 'Order',
     OrderItem: 'OrderItem',
     Size: 'Size',
+    Otp: 'Otp',
     Color: 'Color',
     Image: 'Image'
   };
@@ -1075,7 +1103,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     meta: {
-      modelProps: 'user' | 'post' | 'store' | 'billboard' | 'banner' | 'category' | 'parent' | 'type' | 'product' | 'order' | 'orderItem' | 'size' | 'color' | 'image'
+      modelProps: 'user' | 'post' | 'store' | 'billboard' | 'banner' | 'category' | 'parent' | 'type' | 'product' | 'order' | 'orderItem' | 'size' | 'otp' | 'color' | 'image'
       txIsolationLevel: never
     },
     model: {
@@ -2144,6 +2172,95 @@ export namespace Prisma {
             args: Prisma.SizeCountArgs<ExtArgs>,
             result: $Utils.Optional<SizeCountAggregateOutputType> | number
             payload: SizePayload<ExtArgs>
+          }
+        }
+      }
+      Otp: {
+        operations: {
+          findUnique: {
+            args: Prisma.OtpFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<OtpPayload> | null
+            payload: OtpPayload<ExtArgs>
+          }
+          findUniqueOrThrow: {
+            args: Prisma.OtpFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<OtpPayload>
+            payload: OtpPayload<ExtArgs>
+          }
+          findFirst: {
+            args: Prisma.OtpFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<OtpPayload> | null
+            payload: OtpPayload<ExtArgs>
+          }
+          findFirstOrThrow: {
+            args: Prisma.OtpFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<OtpPayload>
+            payload: OtpPayload<ExtArgs>
+          }
+          findMany: {
+            args: Prisma.OtpFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<OtpPayload>[]
+            payload: OtpPayload<ExtArgs>
+          }
+          create: {
+            args: Prisma.OtpCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<OtpPayload>
+            payload: OtpPayload<ExtArgs>
+          }
+          createMany: {
+            args: Prisma.OtpCreateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: OtpPayload<ExtArgs>
+          }
+          delete: {
+            args: Prisma.OtpDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<OtpPayload>
+            payload: OtpPayload<ExtArgs>
+          }
+          update: {
+            args: Prisma.OtpUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<OtpPayload>
+            payload: OtpPayload<ExtArgs>
+          }
+          deleteMany: {
+            args: Prisma.OtpDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: OtpPayload<ExtArgs>
+          }
+          updateMany: {
+            args: Prisma.OtpUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+            payload: OtpPayload<ExtArgs>
+          }
+          upsert: {
+            args: Prisma.OtpUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<OtpPayload>
+            payload: OtpPayload<ExtArgs>
+          }
+          aggregate: {
+            args: Prisma.OtpAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateOtp>
+            payload: OtpPayload<ExtArgs>
+          }
+          groupBy: {
+            args: Prisma.OtpGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<OtpGroupByOutputType>[]
+            payload: OtpPayload<ExtArgs>
+          }
+          findRaw: {
+            args: Prisma.OtpFindRawArgs<ExtArgs>,
+            result: Prisma.JsonObject
+            payload: OtpPayload<ExtArgs>
+          }
+          aggregateRaw: {
+            args: Prisma.OtpAggregateRawArgs<ExtArgs>,
+            result: Prisma.JsonObject
+            payload: OtpPayload<ExtArgs>
+          }
+          count: {
+            args: Prisma.OtpCountArgs<ExtArgs>,
+            result: $Utils.Optional<OtpCountAggregateOutputType> | number
+            payload: OtpPayload<ExtArgs>
           }
         }
       }
@@ -15308,6 +15425,940 @@ export namespace Prisma {
 
 
   /**
+   * Model Otp
+   */
+
+
+  export type AggregateOtp = {
+    _count: OtpCountAggregateOutputType | null
+    _min: OtpMinAggregateOutputType | null
+    _max: OtpMaxAggregateOutputType | null
+  }
+
+  export type OtpMinAggregateOutputType = {
+    id: string | null
+    mobile: string | null
+    otp: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type OtpMaxAggregateOutputType = {
+    id: string | null
+    mobile: string | null
+    otp: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type OtpCountAggregateOutputType = {
+    id: number
+    mobile: number
+    otp: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type OtpMinAggregateInputType = {
+    id?: true
+    mobile?: true
+    otp?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type OtpMaxAggregateInputType = {
+    id?: true
+    mobile?: true
+    otp?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type OtpCountAggregateInputType = {
+    id?: true
+    mobile?: true
+    otp?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type OtpAggregateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Otp to aggregate.
+     */
+    where?: OtpWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Otps to fetch.
+     */
+    orderBy?: Enumerable<OtpOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: OtpWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Otps from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Otps.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Otps
+    **/
+    _count?: true | OtpCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: OtpMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: OtpMaxAggregateInputType
+  }
+
+  export type GetOtpAggregateType<T extends OtpAggregateArgs> = {
+        [P in keyof T & keyof AggregateOtp]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateOtp[P]>
+      : GetScalarType<T[P], AggregateOtp[P]>
+  }
+
+
+
+
+  export type OtpGroupByArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    where?: OtpWhereInput
+    orderBy?: Enumerable<OtpOrderByWithAggregationInput>
+    by: OtpScalarFieldEnum[]
+    having?: OtpScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: OtpCountAggregateInputType | true
+    _min?: OtpMinAggregateInputType
+    _max?: OtpMaxAggregateInputType
+  }
+
+
+  export type OtpGroupByOutputType = {
+    id: string
+    mobile: string
+    otp: string
+    createdAt: Date
+    updatedAt: Date
+    _count: OtpCountAggregateOutputType | null
+    _min: OtpMinAggregateOutputType | null
+    _max: OtpMaxAggregateOutputType | null
+  }
+
+  type GetOtpGroupByPayload<T extends OtpGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<OtpGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof OtpGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], OtpGroupByOutputType[P]>
+            : GetScalarType<T[P], OtpGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type OtpSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    mobile?: boolean
+    otp?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["otp"]>
+
+  export type OtpSelectScalar = {
+    id?: boolean
+    mobile?: boolean
+    otp?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+
+  type OtpGetPayload<S extends boolean | null | undefined | OtpArgs> = $Types.GetResult<OtpPayload, S>
+
+  type OtpCountArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = 
+    Omit<OtpFindManyArgs, 'select' | 'include'> & {
+      select?: OtpCountAggregateInputType | true
+    }
+
+  export interface OtpDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Otp'], meta: { name: 'Otp' } }
+    /**
+     * Find zero or one Otp that matches the filter.
+     * @param {OtpFindUniqueArgs} args - Arguments to find a Otp
+     * @example
+     * // Get one Otp
+     * const otp = await prisma.otp.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends OtpFindUniqueArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, OtpFindUniqueArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Otp'> extends True ? Prisma__OtpClient<$Types.GetResult<OtpPayload<ExtArgs>, T, 'findUnique', never>, never, ExtArgs> : Prisma__OtpClient<$Types.GetResult<OtpPayload<ExtArgs>, T, 'findUnique', never> | null, null, ExtArgs>
+
+    /**
+     * Find one Otp that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {OtpFindUniqueOrThrowArgs} args - Arguments to find a Otp
+     * @example
+     * // Get one Otp
+     * const otp = await prisma.otp.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends OtpFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, OtpFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__OtpClient<$Types.GetResult<OtpPayload<ExtArgs>, T, 'findUniqueOrThrow', never>, never, ExtArgs>
+
+    /**
+     * Find the first Otp that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OtpFindFirstArgs} args - Arguments to find a Otp
+     * @example
+     * // Get one Otp
+     * const otp = await prisma.otp.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends OtpFindFirstArgs<ExtArgs>, LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, OtpFindFirstArgs<ExtArgs>>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Otp'> extends True ? Prisma__OtpClient<$Types.GetResult<OtpPayload<ExtArgs>, T, 'findFirst', never>, never, ExtArgs> : Prisma__OtpClient<$Types.GetResult<OtpPayload<ExtArgs>, T, 'findFirst', never> | null, null, ExtArgs>
+
+    /**
+     * Find the first Otp that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OtpFindFirstOrThrowArgs} args - Arguments to find a Otp
+     * @example
+     * // Get one Otp
+     * const otp = await prisma.otp.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends OtpFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, OtpFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__OtpClient<$Types.GetResult<OtpPayload<ExtArgs>, T, 'findFirstOrThrow', never>, never, ExtArgs>
+
+    /**
+     * Find zero or more Otps that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OtpFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Otps
+     * const otps = await prisma.otp.findMany()
+     * 
+     * // Get first 10 Otps
+     * const otps = await prisma.otp.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const otpWithIdOnly = await prisma.otp.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends OtpFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, OtpFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Types.GetResult<OtpPayload<ExtArgs>, T, 'findMany', never>>
+
+    /**
+     * Create a Otp.
+     * @param {OtpCreateArgs} args - Arguments to create a Otp.
+     * @example
+     * // Create one Otp
+     * const Otp = await prisma.otp.create({
+     *   data: {
+     *     // ... data to create a Otp
+     *   }
+     * })
+     * 
+    **/
+    create<T extends OtpCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, OtpCreateArgs<ExtArgs>>
+    ): Prisma__OtpClient<$Types.GetResult<OtpPayload<ExtArgs>, T, 'create', never>, never, ExtArgs>
+
+    /**
+     * Create many Otps.
+     *     @param {OtpCreateManyArgs} args - Arguments to create many Otps.
+     *     @example
+     *     // Create many Otps
+     *     const otp = await prisma.otp.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends OtpCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, OtpCreateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Otp.
+     * @param {OtpDeleteArgs} args - Arguments to delete one Otp.
+     * @example
+     * // Delete one Otp
+     * const Otp = await prisma.otp.delete({
+     *   where: {
+     *     // ... filter to delete one Otp
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends OtpDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, OtpDeleteArgs<ExtArgs>>
+    ): Prisma__OtpClient<$Types.GetResult<OtpPayload<ExtArgs>, T, 'delete', never>, never, ExtArgs>
+
+    /**
+     * Update one Otp.
+     * @param {OtpUpdateArgs} args - Arguments to update one Otp.
+     * @example
+     * // Update one Otp
+     * const otp = await prisma.otp.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends OtpUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, OtpUpdateArgs<ExtArgs>>
+    ): Prisma__OtpClient<$Types.GetResult<OtpPayload<ExtArgs>, T, 'update', never>, never, ExtArgs>
+
+    /**
+     * Delete zero or more Otps.
+     * @param {OtpDeleteManyArgs} args - Arguments to filter Otps to delete.
+     * @example
+     * // Delete a few Otps
+     * const { count } = await prisma.otp.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends OtpDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, OtpDeleteManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Otps.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OtpUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Otps
+     * const otp = await prisma.otp.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends OtpUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, OtpUpdateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Otp.
+     * @param {OtpUpsertArgs} args - Arguments to update or create a Otp.
+     * @example
+     * // Update or create a Otp
+     * const otp = await prisma.otp.upsert({
+     *   create: {
+     *     // ... data to create a Otp
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Otp we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends OtpUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, OtpUpsertArgs<ExtArgs>>
+    ): Prisma__OtpClient<$Types.GetResult<OtpPayload<ExtArgs>, T, 'upsert', never>, never, ExtArgs>
+
+    /**
+     * Find zero or more Otps that matches the filter.
+     * @param {OtpFindRawArgs} args - Select which filters you would like to apply.
+     * @example
+     * const otp = await prisma.otp.findRaw({
+     *   filter: { age: { $gt: 25 } } 
+     * })
+    **/
+    findRaw(
+      args?: OtpFindRawArgs
+    ): Prisma.PrismaPromise<JsonObject>
+
+    /**
+     * Perform aggregation operations on a Otp.
+     * @param {OtpAggregateRawArgs} args - Select which aggregations you would like to apply.
+     * @example
+     * const otp = await prisma.otp.aggregateRaw({
+     *   pipeline: [
+     *     { $match: { status: "registered" } },
+     *     { $group: { _id: "$country", total: { $sum: 1 } } }
+     *   ]
+     * })
+    **/
+    aggregateRaw(
+      args?: OtpAggregateRawArgs
+    ): Prisma.PrismaPromise<JsonObject>
+
+    /**
+     * Count the number of Otps.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OtpCountArgs} args - Arguments to filter Otps to count.
+     * @example
+     * // Count the number of Otps
+     * const count = await prisma.otp.count({
+     *   where: {
+     *     // ... the filter for the Otps we want to count
+     *   }
+     * })
+    **/
+    count<T extends OtpCountArgs>(
+      args?: Subset<T, OtpCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], OtpCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Otp.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OtpAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends OtpAggregateArgs>(args: Subset<T, OtpAggregateArgs>): Prisma.PrismaPromise<GetOtpAggregateType<T>>
+
+    /**
+     * Group by Otp.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OtpGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends OtpGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: OtpGroupByArgs['orderBy'] }
+        : { orderBy?: OtpGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, OtpGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetOtpGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Otp.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__OtpClient<T, Null = never, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * Otp base type for findUnique actions
+   */
+  export type OtpFindUniqueArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Otp
+     */
+    select?: OtpSelect<ExtArgs> | null
+    /**
+     * Filter, which Otp to fetch.
+     */
+    where: OtpWhereUniqueInput
+  }
+
+  /**
+   * Otp findUnique
+   */
+  export interface OtpFindUniqueArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends OtpFindUniqueArgsBase<ExtArgs> {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Otp findUniqueOrThrow
+   */
+  export type OtpFindUniqueOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Otp
+     */
+    select?: OtpSelect<ExtArgs> | null
+    /**
+     * Filter, which Otp to fetch.
+     */
+    where: OtpWhereUniqueInput
+  }
+
+
+  /**
+   * Otp base type for findFirst actions
+   */
+  export type OtpFindFirstArgsBase<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Otp
+     */
+    select?: OtpSelect<ExtArgs> | null
+    /**
+     * Filter, which Otp to fetch.
+     */
+    where?: OtpWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Otps to fetch.
+     */
+    orderBy?: Enumerable<OtpOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Otps.
+     */
+    cursor?: OtpWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Otps from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Otps.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Otps.
+     */
+    distinct?: Enumerable<OtpScalarFieldEnum>
+  }
+
+  /**
+   * Otp findFirst
+   */
+  export interface OtpFindFirstArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends OtpFindFirstArgsBase<ExtArgs> {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Otp findFirstOrThrow
+   */
+  export type OtpFindFirstOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Otp
+     */
+    select?: OtpSelect<ExtArgs> | null
+    /**
+     * Filter, which Otp to fetch.
+     */
+    where?: OtpWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Otps to fetch.
+     */
+    orderBy?: Enumerable<OtpOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Otps.
+     */
+    cursor?: OtpWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Otps from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Otps.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Otps.
+     */
+    distinct?: Enumerable<OtpScalarFieldEnum>
+  }
+
+
+  /**
+   * Otp findMany
+   */
+  export type OtpFindManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Otp
+     */
+    select?: OtpSelect<ExtArgs> | null
+    /**
+     * Filter, which Otps to fetch.
+     */
+    where?: OtpWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Otps to fetch.
+     */
+    orderBy?: Enumerable<OtpOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Otps.
+     */
+    cursor?: OtpWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Otps from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Otps.
+     */
+    skip?: number
+    distinct?: Enumerable<OtpScalarFieldEnum>
+  }
+
+
+  /**
+   * Otp create
+   */
+  export type OtpCreateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Otp
+     */
+    select?: OtpSelect<ExtArgs> | null
+    /**
+     * The data needed to create a Otp.
+     */
+    data: XOR<OtpCreateInput, OtpUncheckedCreateInput>
+  }
+
+
+  /**
+   * Otp createMany
+   */
+  export type OtpCreateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Otps.
+     */
+    data: Enumerable<OtpCreateManyInput>
+  }
+
+
+  /**
+   * Otp update
+   */
+  export type OtpUpdateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Otp
+     */
+    select?: OtpSelect<ExtArgs> | null
+    /**
+     * The data needed to update a Otp.
+     */
+    data: XOR<OtpUpdateInput, OtpUncheckedUpdateInput>
+    /**
+     * Choose, which Otp to update.
+     */
+    where: OtpWhereUniqueInput
+  }
+
+
+  /**
+   * Otp updateMany
+   */
+  export type OtpUpdateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Otps.
+     */
+    data: XOR<OtpUpdateManyMutationInput, OtpUncheckedUpdateManyInput>
+    /**
+     * Filter which Otps to update
+     */
+    where?: OtpWhereInput
+  }
+
+
+  /**
+   * Otp upsert
+   */
+  export type OtpUpsertArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Otp
+     */
+    select?: OtpSelect<ExtArgs> | null
+    /**
+     * The filter to search for the Otp to update in case it exists.
+     */
+    where: OtpWhereUniqueInput
+    /**
+     * In case the Otp found by the `where` argument doesn't exist, create a new Otp with this data.
+     */
+    create: XOR<OtpCreateInput, OtpUncheckedCreateInput>
+    /**
+     * In case the Otp was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<OtpUpdateInput, OtpUncheckedUpdateInput>
+  }
+
+
+  /**
+   * Otp delete
+   */
+  export type OtpDeleteArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Otp
+     */
+    select?: OtpSelect<ExtArgs> | null
+    /**
+     * Filter which Otp to delete.
+     */
+    where: OtpWhereUniqueInput
+  }
+
+
+  /**
+   * Otp deleteMany
+   */
+  export type OtpDeleteManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Otps to delete
+     */
+    where?: OtpWhereInput
+  }
+
+
+  /**
+   * Otp findRaw
+   */
+  export type OtpFindRawArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * The query predicate filter. If unspecified, then all documents in the collection will match the predicate. ${@link https://docs.mongodb.com/manual/reference/operator/query MongoDB Docs}.
+     */
+    filter?: InputJsonValue
+    /**
+     * Additional options to pass to the `find` command ${@link https://docs.mongodb.com/manual/reference/command/find/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+
+  /**
+   * Otp aggregateRaw
+   */
+  export type OtpAggregateRawArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * An array of aggregation stages to process and transform the document stream via the aggregation pipeline. ${@link https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline MongoDB Docs}.
+     */
+    pipeline?: InputJsonValue[]
+    /**
+     * Additional options to pass to the `aggregate` command ${@link https://docs.mongodb.com/manual/reference/command/aggregate/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+
+  /**
+   * Otp without action
+   */
+  export type OtpArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Otp
+     */
+    select?: OtpSelect<ExtArgs> | null
+  }
+
+
+
+  /**
    * Model Color
    */
 
@@ -17453,6 +18504,17 @@ export namespace Prisma {
   export type SizeScalarFieldEnum = (typeof SizeScalarFieldEnum)[keyof typeof SizeScalarFieldEnum]
 
 
+  export const OtpScalarFieldEnum: {
+    id: 'id',
+    mobile: 'mobile',
+    otp: 'otp',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type OtpScalarFieldEnum = (typeof OtpScalarFieldEnum)[keyof typeof OtpScalarFieldEnum]
+
+
   export const ColorScalarFieldEnum: {
     id: 'id',
     storeId: 'storeId',
@@ -18160,6 +19222,51 @@ export namespace Prisma {
     storeId?: StringWithAggregatesFilter | string
     name?: StringWithAggregatesFilter | string
     value?: StringWithAggregatesFilter | string
+    createdAt?: DateTimeWithAggregatesFilter | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter | Date | string
+  }
+
+  export type OtpWhereInput = {
+    AND?: Enumerable<OtpWhereInput>
+    OR?: Enumerable<OtpWhereInput>
+    NOT?: Enumerable<OtpWhereInput>
+    id?: StringFilter | string
+    mobile?: StringFilter | string
+    otp?: StringFilter | string
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+  }
+
+  export type OtpOrderByWithRelationInput = {
+    id?: SortOrder
+    mobile?: SortOrder
+    otp?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type OtpWhereUniqueInput = {
+    id?: string
+  }
+
+  export type OtpOrderByWithAggregationInput = {
+    id?: SortOrder
+    mobile?: SortOrder
+    otp?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: OtpCountOrderByAggregateInput
+    _max?: OtpMaxOrderByAggregateInput
+    _min?: OtpMinOrderByAggregateInput
+  }
+
+  export type OtpScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<OtpScalarWhereWithAggregatesInput>
+    OR?: Enumerable<OtpScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<OtpScalarWhereWithAggregatesInput>
+    id?: StringWithAggregatesFilter | string
+    mobile?: StringWithAggregatesFilter | string
+    otp?: StringWithAggregatesFilter | string
     createdAt?: DateTimeWithAggregatesFilter | Date | string
     updatedAt?: DateTimeWithAggregatesFilter | Date | string
   }
@@ -19042,6 +20149,58 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type OtpCreateInput = {
+    id?: string
+    mobile: string
+    otp: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type OtpUncheckedCreateInput = {
+    id?: string
+    mobile: string
+    otp: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type OtpUpdateInput = {
+    mobile?: StringFieldUpdateOperationsInput | string
+    otp?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OtpUncheckedUpdateInput = {
+    mobile?: StringFieldUpdateOperationsInput | string
+    otp?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OtpCreateManyInput = {
+    id?: string
+    mobile: string
+    otp: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type OtpUpdateManyMutationInput = {
+    mobile?: StringFieldUpdateOperationsInput | string
+    otp?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OtpUncheckedUpdateManyInput = {
+    mobile?: StringFieldUpdateOperationsInput | string
+    otp?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ColorCreateInput = {
     id?: string
     name: string
@@ -19774,6 +20933,30 @@ export namespace Prisma {
     storeId?: SortOrder
     name?: SortOrder
     value?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type OtpCountOrderByAggregateInput = {
+    id?: SortOrder
+    mobile?: SortOrder
+    otp?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type OtpMaxOrderByAggregateInput = {
+    id?: SortOrder
+    mobile?: SortOrder
+    otp?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type OtpMinOrderByAggregateInput = {
+    id?: SortOrder
+    mobile?: SortOrder
+    otp?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }

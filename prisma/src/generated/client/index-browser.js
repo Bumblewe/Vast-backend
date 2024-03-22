@@ -208,6 +208,14 @@ exports.Prisma.SizeScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.OtpScalarFieldEnum = {
+  id: 'id',
+  mobile: 'mobile',
+  otp: 'otp',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.ColorScalarFieldEnum = {
   id: 'id',
   storeId: 'storeId',
@@ -252,6 +260,7 @@ exports.Prisma.ModelName = {
   Order: 'Order',
   OrderItem: 'OrderItem',
   Size: 'Size',
+  Otp: 'Otp',
   Color: 'Color',
   Image: 'Image'
 };
