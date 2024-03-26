@@ -12,6 +12,16 @@ export async function POST(
     if (!mobile) {
       return new NextResponse("Unauthenticated", { status: 403 });
     }
+    const threshold = Date.now() - 1000 * 60 * 30;
+		let otps = await prisma?.otp.count({
+      where: {
+        mobile: mobile,
+        createdAt: { gt: new Date(threshold) },
+      },
+    });
+		if (otps === 3) {
+			return NextResponse.json({ message: "too_many_requests", status: 429 });
+		}
     let code = generateRandomNumber();
     const otp: any = await prismadb.otp.create({
       data: {
@@ -19,17 +29,15 @@ export async function POST(
         mobile: mobile,
       },
     });
-    await sendLoginOTP(mobile, code);
-    return NextResponse.json(otp);
+    // await sendLoginOTP(mobile, code);
+    return NextResponse.json({ status: 200 });
   } catch (error) {
     console.log("[OTP]", error);
-    return new NextResponse("Internal error", { status: 500 });
+    return NextResponse.json({message:"Internal error", status: 500 });
   }
 };
 
-export async function OPTIONS(
-  req: Request
-) {
+export async function OPTIONS(req: Request) {
   try {
     return NextResponse.json({ status: 200 });
   } catch (error) {

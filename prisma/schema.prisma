@@ -8,24 +8,47 @@ generator client {
   output   = "./src/generated/client"
 }
 
+
 model User {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   createdAt DateTime @default(now())
   email     String   @unique
-  name      String?
+  name      String
+  password  String
   role      Role     @default(USER)
-  posts     Post[]
+  mobile    String
+  address   String
+  cartId    String? // Foreign Key to Cart
+  cart      Cart? @relation(fields: [cartId], references: [id])
+
+  @@index([cartId])
 }
 
-model Post {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  published Boolean  @default(false)
-  title     String
-  author    User?    @relation(fields: [authorId], references: [id])
-  authorId  String   @db.ObjectId
+model Cart {
+  id         String      @id @default(auto()) @map("_id") @db.ObjectId
+  user       User[]
+  cartItems  CartItem[] // Relation to CartItem model
+  updatedAt  DateTime    @updatedAt
+
 }
+
+// Intermediary for a many-to-many relationship
+model CartItem {
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  cartId    String // Foreign Key to Cart
+  cart      Cart   @relation(fields: [cartId], references: [id])
+  sizeId    String      @default("")
+  colorId   String      @default("")
+  quantity  String      @default("")
+  productId String // Foreign Key to Product
+  product   Product @relation(fields: [productId], references: [id])
+
+  @@index([colorId])
+  @@index([sizeId])
+  @@index([cartId])
+  @@index([productId])
+}
+
 
 model Store {
   id         String      @id @default(auto()) @map("_id") @db.ObjectId
@@ -130,6 +153,7 @@ model Product {
   colorId    String // Foreign Key to Color
   color      Color       @relation(fields: [colorId], references: [id])
   images     Image[] // Relation to Image model
+  cartItems  CartItem[]
   orderItems OrderItem[] // Relation to Order model
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt

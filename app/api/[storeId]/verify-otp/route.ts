@@ -1,79 +1,75 @@
 import { NextResponse } from 'next/server';
-import { auth } from '@clerk/nextjs';
+import {signToken} from '@/app/_utils/AuthUtil';
 
 import prismadb from '@/lib/prismadb';
+import { Constants } from '@/app/_utils/Constants';
+import { getHashedPassword } from '@/app/_utils/Helper';
  
 export async function POST(
   req: Request,
-  { params }: { params: { storeId: string } }
 ) {
   try {
-    const { userId } = auth();
 
     const body = await req.json();
 
-    const { label, imageUrl } = body;
+    const { mobile, otp, data, new_user } = body;
 
-    if (!userId) {
-      return new NextResponse("Unauthenticated", { status: 403 });
+    if(new_user && !data){
+      return NextResponse.json({message:"Data missing", status: 403 });
     }
 
-    if (!label) {
-      return new NextResponse("Label is required", { status: 400 });
+    if (!mobile) {
+      return NextResponse.json({message:"Mobile required", status: 403 });
     }
 
-    if (!imageUrl) {
-      return new NextResponse("Image URL is required", { status: 400 });
+    if (!otp) {
+      return NextResponse.json({message:"Otp is required", status: 400 });
     }
 
-    if (!params.storeId) {
-      return new NextResponse("Store id is required", { status: 400 });
-    }
-
-    const storeByUserId = await prismadb.store.findFirst({
+    const otp_record = await prismadb.otp.findFirst({
       where: {
-        id: params.storeId,
-        userId,
-      }
+        mobile
+      },
+      orderBy: [{createdAt:"desc"}]
     });
 
-    if (!storeByUserId) {
-      return new NextResponse("Unauthorized", { status: 405 });
+    if ((Date.now() - new Date(otp_record?.createdAt || '').getTime()) > 1000 * 60 * 10) {      
+      return NextResponse.json({message:"otp_expired", status: 403 })
+		}
+		if (otp_record?.otp !== otp) {
+      return NextResponse.json({message:"incorrect_otp",status:400})
+		}
+    if (!otp_record) {
+      return NextResponse.json({message:"Unauthorized",status:405})
     }
 
-    const banner = await prismadb.banner.create({
-      data: {
-        label,
-        imageUrl,
-        storeId: params.storeId,
-      }
-    });
-  
-    return NextResponse.json(banner);
+    if(new_user){
+      const user = await prismadb.user.create({
+        data: {
+          email: data.email,
+          name: data.name,
+          role: "USER",
+          mobile: mobile,
+          address: "",
+          password: getHashedPassword(data.password),
+        },
+      });
+
+      let token = signToken(
+        user.id,
+        user.name ?? "N/A",
+        "+91",
+        user.mobile,
+        Constants.ROLES.USER
+      );
+      let res_user: any = { ...user };
+      delete res_user.password;
+      return NextResponse.json({ token: token, user: res_user, status: 200 });
+    }
   } catch (error) {
     console.log('[BANNER_POST]', error);
     return new NextResponse("Internal error", { status: 500 });
   }
 };
 
-export async function GET(
-  req: Request,
-  { params }: { params: { storeId: string } }
-) {
-  try {
-    if (!params.storeId) {
-      return new NextResponse("Store id is required", { status: 400 });
-    }
 
-    const banners = await prismadb.banner.findMany({
-      where: {
-        storeId: params.storeId
-      }
-    });
-  
-    return NextResponse.json(banners);
-  } catch (error) {
-    console.log('[BANNER_GET]', error);
-    return new NextResponse("Internal error", { status: 500 });
-  }
-};

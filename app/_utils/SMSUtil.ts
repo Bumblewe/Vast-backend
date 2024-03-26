@@ -1,4 +1,4 @@
-const Axios = require('axios');
+import Axios from 'axios';
 
 async function sendSMS(payload:any) {
   try {

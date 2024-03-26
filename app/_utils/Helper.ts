@@ -1,6 +1,7 @@
+// @ts-nocheck
 // import customAlphabet from 'nanoid';
 // import Format from 'string-template';
-// import Bcrypt from 'bcryptjs';
+import Bcrypt from 'bcryptjs';
 // import { v4 as UUID  } from 'uuid';
 
 import { customAlphabet } from "nanoid";
@@ -52,10 +53,10 @@ import { customAlphabet } from "nanoid";
 	// 	return false;
 	// },
 
-	// getHashedPassword: (pwd) => {
-	// 	const salt = Bcrypt.genSaltSync(10);
-	// 	return Bcrypt.hashSync(pwd, salt);
-	// },
+	export function getHashedPassword (pwd:string) {
+		const salt = Bcrypt.genSaltSync(10);
+		return Bcrypt.hashSync(pwd, salt);
+	}
 
 	// getObjectReplica: (data, properties) => {
 	// 	const unwanted = properties ?? [];
@@ -67,7 +68,7 @@ import { customAlphabet } from "nanoid";
 	// 	return dt;
 	// },
 
-// 	comparePasswords: (plainPwd, hashedPwd) => {
-// 		return Bcrypt.compareSync(plainPwd, hashedPwd);
-// 	},
+	export function comparePasswords (plainPwd, hashedPwd) {
+		return Bcrypt.compareSync(plainPwd, hashedPwd);
+	}
 // };
