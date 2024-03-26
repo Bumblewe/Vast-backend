@@ -15,15 +15,15 @@ export async function POST(
     const { mobile, otp, data, new_user } = body;
 
     if(new_user && !data){
-      return NextResponse.json({message:"Data missing", status: 403 });
+      return NextResponse.json({message:"Data missing"},{ status: 403 });
     }
 
     if (!mobile) {
-      return NextResponse.json({message:"Mobile required", status: 403 });
+      return NextResponse.json({message:"Mobile required"},{ status: 403 });
     }
 
     if (!otp) {
-      return NextResponse.json({message:"Otp is required", status: 400 });
+      return NextResponse.json({message:"Otp is required"},{ status: 400 });
     }
 
     const otp_record = await prismadb.otp.findFirst({
@@ -34,13 +34,13 @@ export async function POST(
     });
 
     if ((Date.now() - new Date(otp_record?.createdAt || '').getTime()) > 1000 * 60 * 10) {      
-      return NextResponse.json({message:"otp_expired", status: 403 })
+      return NextResponse.json({message:"otp_expired"},{ status: 403 })
 		}
 		if (otp_record?.otp !== otp) {
-      return NextResponse.json({message:"incorrect_otp",status:400})
+      return NextResponse.json({message:"incorrect_otp"},{status:400})
 		}
     if (!otp_record) {
-      return NextResponse.json({message:"Unauthorized",status:405})
+      return NextResponse.json({message:"Unauthorized"},{status:405})
     }
 
     if(new_user){
