@@ -72,4 +72,11 @@ export async function POST(
   }
 };
 
-
+export async function OPTIONS(req: Request) {
+  try {
+    return NextResponse.json({ status: 200 });
+  } catch (error) {
+    console.log("[OTP]", error);
+    return new NextResponse("Internal error", { status: 500 });
+  }
+};
