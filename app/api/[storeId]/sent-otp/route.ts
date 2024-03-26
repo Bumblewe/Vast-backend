@@ -10,17 +10,17 @@ export async function POST(
     const body = await req.json();
     const { mobile } = body;
     if (!mobile) {
-      return new NextResponse("Unauthenticated", { status: 403 });
+      return NextResponse.json({message:"Mobile required"},{ status: 403});
     }
     const threshold = Date.now() - 1000 * 60 * 30;
-		let otps = await prisma?.otp.count({
+		let otps = await prismadb?.otp.count({
       where: {
         mobile: mobile,
         createdAt: { gt: new Date(threshold) },
       },
     });
 		if (otps === 3) {
-			return NextResponse.json({ message: "too_many_requests", status: 429 });
+			return NextResponse.json({ message: "too_many_requests"},{status: 429 });
 		}
     let code = generateRandomNumber();
     const otp: any = await prismadb.otp.create({
@@ -33,7 +33,7 @@ export async function POST(
     return NextResponse.json({ status: 200 });
   } catch (error) {
     console.log("[OTP]", error);
-    return NextResponse.json({message:"Internal error", status: 500 });
+    return NextResponse.json({message:"Internal error"},{ status: 500});
   }
 };
 
