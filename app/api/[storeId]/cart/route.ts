@@ -81,18 +81,25 @@ export async function POST(
     }
     let updatedCart = await prismadb.cart.findUnique({
       where: {
-        id: cartId
+        id: cartId,
       },
       include: {
         cartItem: {
           include: {
             color: true,
             size: true,
-            product:true
-          }
-        }
-      }
-    })
+            product: {
+              include: {
+                images: true,
+                category: true,
+                color: true,
+                size: true,
+              },
+            },
+          },
+        },
+      },
+    });
     return NextResponse.json({cart:updatedCart,status: 200 });
   } catch (error) {
     console.log("cart", error);
@@ -113,7 +120,14 @@ export async function GET(req:Request) {
             include: {
               color: true,
               size: true,
-              product: true,
+              product: {
+                include: {
+                  images: true,
+                  category: true,
+                  color: true,
+                  size: true,
+                },
+              },
             },
           },
         },
