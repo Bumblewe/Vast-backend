@@ -65,7 +65,7 @@
     "@types/bcryptjs": "^2.4.6",
     "@types/string-template": "^1.0.6",
     "@types/uuid": "^9.0.8",
-    "prisma": "^4.16.1"
+    "prisma": "^4.16.2"
   },
   "prisma": {
     "schema": "prisma/schema.prisma"

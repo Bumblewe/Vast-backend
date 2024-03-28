@@ -4,11 +4,10 @@ datasource db {
 }
 
 generator client {
-  provider = "prisma-client-js"
-  output   = "./src/generated/client"
+  provider      = "prisma-client-js"
+  output        = "./src/generated/client"
   binaryTargets = ["native", "darwin"]
 }
-
 
 model User {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
@@ -20,36 +19,38 @@ model User {
   mobile    String
   address   String
   cartId    String? // Foreign Key to Cart
-  cart      Cart? @relation(fields: [cartId], references: [id])
+  cart      Cart?    @relation(fields: [cartId], references: [id])
 
   @@index([cartId])
 }
 
 model Cart {
-  id         String      @id @default(auto()) @map("_id") @db.ObjectId
-  user       User[]
-  cartItems  CartItem[] // Relation to CartItem model
-  updatedAt  DateTime    @updatedAt
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  user      User[]
+  updatedAt DateTime   @updatedAt
+  cartItemId String[]  @db.ObjectId // Foreign Key to Billboard
+  cardItem   CartItem[] @relation(fields: [cartItemId], references: [id])
 
+  @@index([cartItemId])
 }
 
 // Intermediary for a many-to-many relationship
 model CartItem {
   id        String  @id @default(auto()) @map("_id") @db.ObjectId
-  cartId    String // Foreign Key to Cart
-  cart      Cart   @relation(fields: [cartId], references: [id])
-  sizeId    String      @default("")
-  colorId   String      @default("")
-  quantity  String      @default("")
-  productId String // Foreign Key to Product
+  sizeId    String  @default("")
+  colorId   String  @default("")
+  quantity  String  @default("")
+  productId String  @default("")
   product   Product @relation(fields: [productId], references: [id])
+  color     Color   @relation(fields: [colorId], references: [id])
+  size      Size    @relation(fields: [sizeId], references: [id])
+  Cart      Cart[]   @relation(fields: [cartId], references: [id])
+  cartId    String[] @db.ObjectId
 
   @@index([colorId])
   @@index([sizeId])
-  @@index([cartId])
   @@index([productId])
 }
-
 
 model Store {
   id         String      @id @default(auto()) @map("_id") @db.ObjectId
@@ -82,13 +83,13 @@ model Billboard {
 }
 
 model Banner {
-  id         String     @id @default(auto()) @map("_id") @db.ObjectId
-  storeId    String
-  store      Store      @relation("StoreToBanner", fields: [storeId], references: [id])
-  label      String
-  imageUrl   String
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @updatedAt
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  storeId   String
+  store     Store    @relation("StoreToBanner", fields: [storeId], references: [id])
+  label     String
+  imageUrl  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([storeId])
 }
@@ -118,7 +119,7 @@ model Parent {
   name       String
   categories Category[]
   typeId     String // Foreign Key to Type
-  type       Type @relation(fields: [typeId], references: [id])
+  type       Type       @relation(fields: [typeId], references: [id])
   createdAt  DateTime   @default(now())
   updatedAt  DateTime   @updatedAt
 
@@ -127,14 +128,14 @@ model Parent {
 }
 
 model Type {
-  id         String     @id @default(auto()) @map("_id") @db.ObjectId
-  storeId    String
-  store      Store      @relation("StoreToType", fields: [storeId], references: [id])
-  label      String
-  imageUrl   String
-  parents    Parent[]
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @updatedAt
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  storeId   String
+  store     Store    @relation("StoreToType", fields: [storeId], references: [id])
+  label     String
+  imageUrl  String
+  parents   Parent[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([storeId])
 }
@@ -154,7 +155,7 @@ model Product {
   colorId    String // Foreign Key to Color
   color      Color       @relation(fields: [colorId], references: [id])
   images     Image[] // Relation to Image model
-  cartItems  CartItem[]
+  cartItem   CartItem[]
   orderItems OrderItem[] // Relation to Order model
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
@@ -192,35 +193,37 @@ model OrderItem {
 }
 
 model Size {
-  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
   storeId   String // Foreign Key to Store
-  store     Store     @relation("StoreToSize", fields: [storeId], references: [id])
+  store     Store      @relation("StoreToSize", fields: [storeId], references: [id])
   name      String
   value     String
   products  Product[] // Relation to Product model
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  cartItem  CartItem[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
 
   @@index([storeId])
 }
 
 model Otp {
-  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
   mobile    String
-  otp       String     
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  otp       String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Color {
-  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
   storeId   String // Foreign Key to Store
-  store     Store     @relation("StoreToColor", fields: [storeId], references: [id])
+  store     Store      @relation("StoreToColor", fields: [storeId], references: [id])
   name      String
   value     String
+  cartItem  CartItem[]
   products  Product[] // Relation to Product model
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
 
   @@index([storeId])
 }
