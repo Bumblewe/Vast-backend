@@ -2,7 +2,7 @@
 // @ts-nocheck
 
 import JSONWebToken from 'jsonwebtoken';
-import Constants from './Constants';
+import {Constants} from './Constants';
 
 function isValidRole(role, roles) {
 	let isValid = false;
@@ -28,15 +28,15 @@ function isValidRole(role, roles) {
 		return token;
 	}
 
-	export function decodeToken (req, res, next) {
+	export function decodeToken (req) {
 		try {
-			let token = req.headers.authorization;
+			let token = req.headers.get("authorization");
 			if (token != null && token.indexOf(' ') >= 0) token = token.split(' ')[1];
 			let decoded = JSONWebToken.verify(token, process.env.JWT_SECRET);
 			req.decoded_data = decoded;
-			next();
+			return decoded;
 		} catch (err) {
-			next();
+			console.log(err);	
 		}
 	}
 

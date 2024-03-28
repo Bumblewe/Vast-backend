@@ -279,6 +279,10 @@ const config = {
         "fromEnvVar": null,
         "value": "darwin-arm64",
         "native": true
+      },
+      {
+        "fromEnvVar": null,
+        "value": "darwin"
       }
     ],
     "previewFeatures": [],
@@ -327,5 +331,8 @@ Object.assign(exports, Prisma)
 
 path.join(__dirname, "libquery_engine-darwin-arm64.dylib.node");
 path.join(process.cwd(), "prisma/src/generated/client/libquery_engine-darwin-arm64.dylib.node")
+
+path.join(__dirname, "libquery_engine-darwin.dylib.node");
+path.join(process.cwd(), "prisma/src/generated/client/libquery_engine-darwin.dylib.node")
 path.join(__dirname, "schema.prisma");
 path.join(process.cwd(), "prisma/src/generated/client/schema.prisma")
