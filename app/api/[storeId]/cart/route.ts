@@ -9,7 +9,7 @@ export async function POST(
     let userToken = decodeToken(req);
     const body = await req.json();
     const { data } = body;
-
+   
     const user = await prismadb.user.findUnique({
       where: {
         id: userToken.user_id,
@@ -17,7 +17,7 @@ export async function POST(
       include: {
         cart: {
           include: {
-            cardItem: true,
+            cartItem: true,
           },
         },
       },
@@ -47,7 +47,7 @@ export async function POST(
       })
       cartId = cart.id
     }else {
-        let cartItem = user?.cart?.cardItem?.find((item)=>item.productId==data.id);
+        let cartItem = user?.cart?.cartItem?.find((item)=>item.productId==data.id);
         if(!cartItem){
             cartItem = await prismadb.cartItem.create({
               data: {
@@ -84,7 +84,7 @@ export async function POST(
         id: cartId
       },
       include: {
-        cardItem: {
+        cartItem: {
           include: {
             color: true,
             size: true,
@@ -109,7 +109,7 @@ export async function GET(req:Request) {
     include: {
       cart: {
         include: {
-          cardItem: {
+          cartItem: {
             include: {
               color: true,
               size: true,

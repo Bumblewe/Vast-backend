@@ -29,7 +29,7 @@ model Cart {
   user      User[]
   updatedAt DateTime   @updatedAt
   cartItemId String[]  @db.ObjectId // Foreign Key to Billboard
-  cardItem   CartItem[] @relation(fields: [cartItemId], references: [id])
+  cartItem   CartItem[] @relation(fields: [cartItemId], references: [id])
 
   @@index([cartItemId])
 }
