@@ -4,7 +4,7 @@ import { comparePasswords } from '@/app/_utils/Helper';
 import { decodeToken, signToken } from '@/app/_utils/AuthUtil';
 import { Constants } from '@/app/_utils/Constants';
 
-export async function GET(
+export async function POST(
   req: Request
 ) {
   try {
