@@ -9,7 +9,7 @@ export async function POST(
     let userToken = decodeToken(req);
     const body = await req.json();
     const { data } = body;
-   
+    let updatedCart;
     const user = await prismadb.user.findUnique({
       where: {
         id: userToken.user_id,
@@ -22,7 +22,6 @@ export async function POST(
         },
       },
     });
-    let cartId = user?.cartId || '';
     if(!user?.cartId) {
       const cartItem: any = await prismadb.cartItem.create({
         data:{
@@ -37,69 +36,69 @@ export async function POST(
           cartItemId: [cartItem.id]
         }
       });
-      await prismadb.user.update({
+      updatedCart = await prismadb.user.update({
         where: {
-          id: user?.id
+          id: user?.id,
         },
         data: {
-          cartId: cart.id
-        }
-      })
-      cartId = cart.id
-    }else {
-        let cartItem = user?.cart?.cartItem?.find((item)=>item.productId==data.id);
-        if(!cartItem){
-            cartItem = await prismadb.cartItem.create({
-              data: {
-                productId: data.id,
-                sizeId: data.sizeId,
-                colorId: data.colorId,
-                quantity: data.quantity,
-              },
-            });
-            await prismadb.cart.update({
-              where: {
-                id: user?.cartId,
-              },
-              data: {
-                cartItemId: [...(user.cart?.cartItemId || []), cartItem.id],
-              },
-            }); 
-        }else{
-          await prismadb.cartItem.update({
-            where: {
-              id: cartItem.id,
-            },
-            data: {
-              productId: data.id,
-              sizeId: data.sizeId,
-              colorId: data.colorId,
-              quantity: data.quantity,
-            },
-          });   
-        }
-    }
-    let updatedCart = await prismadb.cart.findUnique({
-      where: {
-        id: cartId,
-      },
-      include: {
-        cartItem: {
-          include: {
-            color: true,
-            size: true,
-            product: {
-              include: {
-                images: true,
-                category: true,
-                color: true,
-                size: true,
+          cartId: cart.id,
+        },
+        include: {
+          cart: {
+            include: {
+              cartItem: {
+                include: {
+                  color: true,
+                  size: true,
+                  product: {
+                    include: {
+                      images: true,
+                      category: true,
+                      color: true,
+                      size: true,
+                    },
+                  },
+                },
               },
             },
           },
         },
-      },
-    });
+      });
+      updatedCart = updatedCart?.cart;
+    }else {
+      let cartItem = await prismadb.cartItem.create({
+        data: {
+          productId: data.id,
+          sizeId: data.sizeId,
+          colorId: data.colorId,
+          quantity: data.quantity,
+        },
+      });
+      updatedCart = await prismadb.cart.update({
+        where: {
+          id: user?.cartId,
+        },
+        data: {
+          cartItemId: [...(user.cart?.cartItemId || []), cartItem.id],
+        },
+        include: {
+          cartItem: {
+            include: {
+              color: true,
+              size: true,
+              product: {
+                include: {
+                  images: true,
+                  category: true,
+                  color: true,
+                  size: true,
+                },
+              },
+            },
+          },
+        },
+      });
+    }
     return NextResponse.json({cart:updatedCart,status: 200 });
   } catch (error) {
     console.log("cart", error);
