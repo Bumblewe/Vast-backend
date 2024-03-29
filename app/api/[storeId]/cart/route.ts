@@ -137,7 +137,6 @@ export async function GET(req:Request) {
   return NextResponse.json({ cart:user?.cart, status: 200 });
 }
 
-
 export async function OPTIONS(req: Request) {
   try {
     return NextResponse.json({ status: 200 });
